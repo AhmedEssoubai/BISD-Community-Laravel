@@ -1,0 +1,134 @@
+.navbar {
+    box-shadow: 2px 2px 5px rgba(107, 107, 107, 0.4);
+    background: #fff;
+    /*position: fixed;
+    width: 100%;*/
+    z-index: 1000;
+}
+
+.navbar .nav-item {
+    font-size: 1rem;
+    padding-right: 20px;
+}
+
+.btn-primary {
+    background-color: #0069bb !important;
+    border-color: #0069bb !important;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #1e76b0 !important;
+    border-color: #1e76b0 !important;
+    color: white;
+}
+
+.navbar .btn-outline-secondary {
+    background-color: transparent !important;
+    border-color: rgba(114, 114, 114, 1) !important;
+    color: rgba(114, 114, 114, 1) !important;
+}
+
+.navbar .btn-outline-secondary:hover {
+    background-color: transparent !important;
+    border-color: rgba(114, 114, 114, 0.5) !important;
+    color: rgba(114, 114, 114, 0.5) !important;
+}
+
+._link {
+    color: rgba(52, 152, 219, 1);
+}
+
+._link:hover {
+    color: rgba(52, 152, 219, 0.5);
+    text-decoration: none;
+}
+
+._sec_link {
+    color: rgba(135, 135, 135, 1);
+    font-size: 0.8em;
+}
+
+._sec_link:hover {
+    color: rgba(135, 135, 135, 0.5);
+    text-decoration: none;
+}
+
+.bg-gray {
+    background-color: rgba(247, 248, 250, 1);
+}
+
+.line {
+    height: 1px;
+    background-color: rgba(50, 50, 55, 0.3);
+    /*border-bottom: 1px solid rgba(50, 50, 55, 0.6)*/
+    box-shadow: 0 1px 5px rgba(50, 50, 55, 0.2);
+}
+
+.errorMessage {
+    color: rgb(236, 82, 82);
+}
+
+.hiddedElement {
+    position: fixed;
+    opacity: 0;
+}
+
+#searchButton {
+    display: none;
+}
+
+.list-group a {
+    color: rgba(100, 100, 100) !important;
+}
+
+.list-group a:hover {
+    color: rgba(150, 150, 150) !important;
+    text-decoration: none;
+}
+
+.list-group .active {
+    color: #0069bb !important;
+    font-weight: bold;
+    background-color: transparent !important;
+}
+
+#dml_profil {
+    height: 50px;
+    width: 50px;
+}
+
+.avatare {
+    height: 48px;
+    width: 48px;
+}
+
+.com-avatare {
+    height: 64px;
+    width: 64px;
+}
+
+.icon {
+    color: rgba(100, 100, 100) !important;
+    font-size: 1.6em;
+}
+
+.icon .active {
+    color: #0069bb !important;
+}
+
+.icon:hover {
+    color: rgba(100, 100, 100, 0.5) !important;
+}
+
+.icon .active:hover {
+    color: rgb(65, 150, 216) !important;
+}
+
+.groupe-icon {
+    width: 30px;
+}
+
+.dropdown-item:focus {
+    background-color: #0069bb;
+}

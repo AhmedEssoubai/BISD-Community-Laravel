@@ -1,0 +1,12 @@
+footer img{
+    opacity: 0.6;
+}
+
+footer .bar{
+    height: 10px;
+    background-color: #0069BB;
+}
+
+footer div{
+    border-color: #C9C9C9;
+}
