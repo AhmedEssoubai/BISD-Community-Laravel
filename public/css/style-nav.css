@@ -23,13 +23,13 @@
     color: white;
 }
 
-.navbar .btn-outline-secondary {
+.btn-os {
     background-color: transparent !important;
     border-color: rgba(114, 114, 114, 1) !important;
     color: rgba(114, 114, 114, 1) !important;
 }
 
-.navbar .btn-outline-secondary:hover {
+.btn-os:hover {
     background-color: transparent !important;
     border-color: rgba(114, 114, 114, 0.5) !important;
     color: rgba(114, 114, 114, 0.5) !important;
@@ -113,16 +113,36 @@
     font-size: 1.6em;
 }
 
-.icon .active {
-    color: #0069bb !important;
-}
-
 .icon:hover {
     color: rgba(100, 100, 100, 0.5) !important;
 }
 
+.icon .active {
+    color: #0069bb !important;
+}
+
 .icon .active:hover {
     color: rgb(65, 150, 216) !important;
+}
+
+.icon-mute {
+    cursor: pointer;
+    color: rgba(100, 100, 100, 0.5) !important;
+    font-size: 1.2em;
+}
+
+.icon-mute:hover {
+    color: rgba(100, 100, 100, 1) !important;
+}
+
+.icon-mute-2 {
+    cursor: pointer;
+    color: rgba(100, 100, 100, 0.3) !important;
+    font-size: 1.2em;
+}
+
+.icon-mute-2:hover {
+    color: rgba(100, 100, 100, 0.8) !important;
 }
 
 .groupe-icon {
@@ -131,4 +151,29 @@
 
 .dropdown-item:focus {
     background-color: #0069bb;
+}
+
+.icon-g{
+    cursor: pointer;
+    color: rgba(74, 217, 145, 0.5) !important;
+    font-size: 1.2em;
+}
+.icon-g:hover{
+    color: rgba(74, 217, 145, 1) !important;
+}
+.icon-r{
+    cursor: pointer;
+    color: rgba(255, 101, 101, 0.5) !important;
+    font-size: 1.2em;
+}
+.icon-r:hover{
+    color: rgba(255, 101, 101, 1) !important;
+}
+.btn-od{
+    color: rgba(255, 101, 101, 1) !important;
+    border: 1px solid rgba(255, 101, 101, 1) !important;
+}
+.btn-od:hover{
+    color: white !important;
+    background-color: rgba(255, 101, 101, 1) !important;
 }

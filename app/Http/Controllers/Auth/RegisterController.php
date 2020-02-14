@@ -54,6 +54,8 @@ class RegisterController extends Controller
             'prenom' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'niveau' => 'required',
+            //'image' => ['image']
         ]);
     }
 
@@ -65,12 +67,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        /*if (empty($data['image']))
+            $path = '/img/default.png';
+        else
+            $path = '/storage/' . $data['image']->store('avatars', 'public');*/
         return User::create([
             'nom' => $data['nom'],
             'prenom' => $data['prenom'],
             'email' => $data['email'],
             'niveau' => $data['niveau'],
             'password' => Hash::make($data['password']),
+            'image' => '/img/default.png'
         ]);
     }
 }

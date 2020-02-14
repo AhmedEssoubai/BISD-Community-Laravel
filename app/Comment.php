@@ -19,4 +19,14 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class, 'compte_id');
     }
+
+    public function can_delete(User $user)
+    {
+        return $user->id == $this->compte_id || $user->etat == 'admin' || $user->id == $this->post->compte_id || $user->id == $this->post->groupe->admin_id;
+    }
+
+    public function can_edit(User $user)
+    {
+        return $user->id == $this->compte_id;
+    }
 }

@@ -14,10 +14,12 @@ class CreateFavorisesTable extends Migration
     public function up()
     {
         Schema::create('favorises', function (Blueprint $table) {
-            $table->bigInteger('post_id');
-            $table->bigInteger('compte_id');
+            $table->unsignedBigInteger('post_id');
+            $table->unsignedBigInteger('compte_id');
             $table->primary(['post_id', 'compte_id']);
             $table->timestamps();
+            $table->foreign('compte_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
         });
     }
 

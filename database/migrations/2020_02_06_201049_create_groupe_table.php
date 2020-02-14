@@ -13,13 +13,14 @@ class CreateGroupeTable extends Migration
      */
     public function up()
     {
-        Schema::create('Groupe', function (Blueprint $table) {
+        Schema::create('groupes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('admin_id');
             $table->string('label');
             $table->string('icon');
             $table->enum('etat', ['public', 'private']);
             $table->timestamps();
+            $table->foreign('admin_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -30,6 +31,6 @@ class CreateGroupeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Groupe');
+        Schema::dropIfExists('groupes');
     }
 }

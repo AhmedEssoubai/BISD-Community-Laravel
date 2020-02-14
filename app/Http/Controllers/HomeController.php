@@ -14,6 +14,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('pending');
     }
 
     /**
@@ -23,6 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return redirect()->route('groupe.show', ['groupe' => 1]); //view('home');
+        //return view('home');
+        return redirect()->route('groupes.show', ['groupe' => 1]);
     }
 }

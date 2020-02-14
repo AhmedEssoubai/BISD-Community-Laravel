@@ -1,28 +1,24 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+@section('form')
+<div>
+    <h2 class="mb-5 pt-5 pb-3">
+        Vérifiez votre adresse e-mail
+    </h2>
 
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
-                        </div>
-                    @endif
-
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
-                    </form>
-                </div>
+    <div>
+        @if (session('resent'))
+            <div class="alert alert-success" role="alert">
+                Un nouveau lien de vérification a été envoyé à votre adresse e-mail.
             </div>
-        </div>
+        @endif
+
+        Avant de continuer, veuillez vérifier votre e-mail pour un lien de vérification.
+        Si vous n'avez pas reçu l'e-mail,
+        <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+            @csrf
+            <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Cliquez ici pour en demander un autre</button>.
+        </form>
     </div>
 </div>
 @endsection

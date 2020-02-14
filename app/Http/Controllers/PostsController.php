@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Groupe;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+//use Illuminate\Support\Facades\Validator;
 use \App\Post;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+//use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
@@ -17,6 +21,7 @@ class PostsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('pending');
     }
 
     /**
@@ -29,28 +34,33 @@ class PostsController extends Controller
     {
         $data = request()->validate([
             'groupe_id' => 'required',
-            'titre' => 'required',
-            'content' => 'required',
+            'titre' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string'],
             'image' => ['required', 'image']
         ]);
 
-        $path = $data['image']->store('uploads', 'public');
+        if (Groupe::findOrFail($data['groupe_id'])->is_member())
+        {
+            $path = $data['image']->store('uploads', 'public');
+    
+            $id = Auth::id();
+    
+            Post::create([
+                'titre' => $data['titre'],
+                'content' => $data['content'],
+                'groupe_id' => $data['groupe_id'],
+                'image' => $path,
+                'compte_id' => $id
+            ]);
+        }
+        
+        return \App::make('redirect')->back();
 
-        $id = Auth::id();
-
-        Post::create([
-            'titre' => $data['titre'],
-            'content' => $data['content'],
-            'groupe_id' => $data['groupe_id'],
-            'image' => $path,
-            'compte_id' => $id
-        ]);
-
-        return redirect()->route('groupe.show', ['groupe' => 1]);
+        //return redirect()->route('groupes.show', ['groupe' => $data['groupe_id']]);
     }
 
     /**
-     * Show a groupe
+     * Show a post
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -59,21 +69,94 @@ class PostsController extends Controller
         return view('post.show', ['post' => Post::findOrFail($post), 'user' => Auth::id()]);
     }
 
-    public function favorite($id)
+    /**
+     * Favorite a post or remove favorite from him if already exists
+     */
+    public function favorite(Post $post)
     {
-        $post = Post::find($id);
-
-        // return response()->json(empty($post->favorises_user()->find(Auth::id())));
-
-        $f = $post->favorises()->find(Auth::id());
-
-        if (empty($f)) {
-            $post->favorises()->attach(Auth::id());
+        if (Groupe::findOrFail($post->groupe_id)->is_member())
+            return $post->favorited_users()->toggle(Auth::user());
+        
+        return response()->json(['message' => 'Not a member'], 200);
+        /*if (empty($post->favorited_users()->find(Auth::id()))) {
+            $post->favorited_users()->attach(Auth::id());
             return response()->json(['message' => 'Le post a été aimé avec succès'], 200);
         } else {
-            $f->delete();
+            DB::table('favorises')->where('compte_id', Auth::id())->where('post_id', $post->id)->delete();
             return response()->json(['message' => 'Le post a été - avec succès'], 200);
+        }*/
+    }
+
+    /**
+     * Bookmark a post or remove it from bookmark list if already exists
+     */
+    public function bookmark(Post $post)
+    {
+        $g = Groupe::findOrFail($post->groupe_id);
+        if ($g->is_public() || $g->is_member())
+            return $post->bookmarked_users()->toggle(Auth::user());
+        
+        return response()->json(['message' => 'Not a member'], 200);
+        /*if (empty($post->bookmarked_users()->find(Auth::id()))) {
+            $post->bookmarked_users()->attach(Auth::id());
+            return response()->json(['message' => 'Le post été ajouté à la liste des signets avec succès'], 200);
+        } else {
+            DB::table('bookmarks')->where('compte_id', Auth::id())->where('post_id', $post->id)->delete();
+            return response()->json(['message' => 'La post a bien été supprimée de la liste des signets'], 200);
+        }*/
+    }
+
+    /**
+     * Show the edit post form
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function edit(Post $post)
+    {
+        $this->authorize('update', $post);
+
+        return view('post.edit', ['post' => $post]);
+    }
+
+    /**
+     * Update a post
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function update(Post $post)
+    {
+        $this->authorize('update', $post);
+
+        $data = request()->validate([
+            'titre' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string'],
+            'image' => ['image']
+        ]);
+
+        if (!empty($data['image']))
+        {
+            Storage::delete($post->image);
+            $image = ['image' => ($data['image']->store('uploads', 'public'))];
         }
-        return response()->json(['message' => 'Le post a été d\'aimé à l\'avance'], 200);
+
+        $post->update(array_merge($data, $image ?? []));
+        
+        return redirect()->route('posts.show', ['post' => $post]);
+    }
+
+    /**
+     * Delete a post
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function destroy(Post $post)
+    {
+        $this->authorize('delete', $post);
+
+        $id = $post->groupe_id;
+
+        $post->delete();
+        
+        return redirect('/groupes/' . $id);
     }
 }
